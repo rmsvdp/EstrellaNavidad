@@ -13,7 +13,7 @@ public class WetStar {
 	public static void main(String[] args) {
 		// TODO  Inicializar el tablero
 		// 32 columnas y 16 filas
-		arrayView av = new arrayView (32,16);
+		arrayView av = new arrayView (8,9);
 		av.turnOff();
 		
 		// TODO  Crear tiras y aplicar efectos
@@ -49,15 +49,36 @@ public class WetStar {
 		int pos2[][] = {{1,3},{2,2},{2,4},{3,1},{3,5},{4,0},{4,6},{5,1},{5,5},{6,2},{6,4},{7,3}};
 		t2.locateLeds(pos2);
 
-				
+
 		av.turnOff(); 
-		for (int i = 1;i<_color.length;i++) {
-			t2.allLeds(_color[i]); // Actualizo los leds
-			av.refresh(t2);
-			av.delay(500);
-			}
+		for (int j=0;j<10;j++) {
+			fade_off(av,t2,1);
+			fade_on(av,t2,1);	
+		} //j
+		
 		av.turnOff();
 		
-	}
+	} // main
 
+	public static void fade_off(arrayView v,TiraLed t, int msec) {
+		
+		for (int i = 255;i>=0;i-=2) {
+			Color c = new Color(i,0,0);
+			t.allLeds(c); // Actualizo los leds
+			v.refresh(t);
+			v.delay(msec);
+			}
+	}
+	
+	public static void fade_on(arrayView v,TiraLed t, int msec) {
+		
+		for (int i = 0;i<256;i+=2) {
+			Color c = new Color(i,0,0);
+			t.allLeds(c); // Actualizo los leds
+			v.refresh(t);
+			v.delay(msec);
+			}
+	}
+	
+	
 }
