@@ -13,7 +13,7 @@ public class WetStar {
 	public static void main(String[] args) {
 		// TODO  Inicializar el tablero
 		// 32 columnas y 16 filas
-		arrayView av = new arrayView (8,9);
+		arrayView av = new arrayView (16,8);
 		av.turnOff();
 		
 		// TODO  Crear tiras y aplicar efectos
@@ -44,25 +44,41 @@ public class WetStar {
 		// -- Ejemplo de creación de una tira de leds con forma de rombo
 		// Array de colores para mayor facilidad en tratamiento de bucles
 		Color[] _color = {av.negro,av.azul,av.cyan,av.verde,av.naranja,av.amarillo,av.magenta,av.rojo,av.gris,av.blanco};
-		//------------------------------------- Rombo 4 x 4
-		TiraLed t2 = new TiraLed(12);
-		int pos2[][] = {{1,3},{2,2},{2,4},{3,1},{3,5},{4,0},{4,6},{5,1},{5,5},{6,2},{6,4},{7,3}};
+		//------------------------------------- rentágulo 6 x 12
+		TiraLed t2 = new TiraLed(32);
+		int pos2[][] = {{1,2},{1,3},{1,4},{1,5},{1,6},{1,7},{1,8},{1,9},{1,10},{1,11},{1,12},{1,13},{2,13},{3,13},{4,13},{5,13},
+				        {6,13},{6,12},{6,11},{6,10},{6,9},{6,8},{6,7},{6,6},{6,5},{6,4},{6,3},{6,2},{5,2},{4,2},{3,2},{2,2}};
 		t2.locateLeds(pos2);
 
 
-		av.turnOff(); 
-		for (int j=0;j<10;j++) {
-			fade_off(av,t2,1);
-			fade_on(av,t2,1);	
-		} //j
+
+	
+		for (int i=0;i<11;i++) {
+			
+			t2.drawLine(0, 0+i, Color.RED);
+			t2.drawLine(16, 16+i, Color.RED);
+			if (i<5) {
+				t2.drawLine(11, 11+i, Color.RED);
+				t2.drawLine(27, 27+i, Color.RED);
+			}
+			av.refresh(t2);
+			av.delay(125);
+		}
 		
+		av.turnOff(); 
+		for (int j=0;j<2;j++) {
+			fade_off(av,t2,3);
+			fade_on(av,t2,3);	
+		} //j
+			
 		av.turnOff();
+
 		
 	} // main
 
 	public static void fade_off(arrayView v,TiraLed t, int msec) {
 		
-		for (int i = 255;i>=0;i-=2) {
+		for (int i = 255;i>=0;i-=1) {
 			Color c = new Color(i,0,0);
 			t.allLeds(c); // Actualizo los leds
 			v.refresh(t);
@@ -72,7 +88,7 @@ public class WetStar {
 	
 	public static void fade_on(arrayView v,TiraLed t, int msec) {
 		
-		for (int i = 0;i<256;i+=2) {
+		for (int i = 0;i<256;i+=1) {
 			Color c = new Color(i,0,0);
 			t.allLeds(c); // Actualizo los leds
 			v.refresh(t);
